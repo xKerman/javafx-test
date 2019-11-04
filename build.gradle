@@ -12,21 +12,44 @@ plugins {
 
     // Apply the application plugin to add support for building an application
     id 'application'
+
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.beryx.jlink' version '2.16.0'
+    id 'org.javamodularity.moduleplugin' version '1.5.0'
 }
 
 repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
     implementation 'com.google.guava:guava:27.0.1-jre'
-
-    // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
 }
 
+javafx {
+    version = '13.0.1'
+    modules = ['javafx.controls', 'javafx.web']
+}
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
 // Define the main class for the application
-mainClassName = 'io.github.xkerman.App'
+mainClassName = "$moduleName/io.github.xkerman.App"
+
+
+jlink {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = "io.github.xkerman.App"
+    }
+    addExtraDependencies('javafx')
+    customImage {
+        jdkModules = ['jdk.crypto.cryptoki']
+        jdkAdditive = true
+    }
+}
