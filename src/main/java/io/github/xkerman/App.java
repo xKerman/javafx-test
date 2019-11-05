@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
-    JavaScriptBridge bridge = new JavaScriptBridge();
+    private JavaScriptBridge bridge = new JavaScriptBridge();
 
     @Override
     public void start(Stage stage) {
